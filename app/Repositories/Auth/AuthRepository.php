@@ -11,5 +11,6 @@ interface AuthRepository extends Repository
     public function logOutFunction();
     public function profileFunction();
     public function createUser($request);
+    public function deleteUser($id);
     // Write something awesome :)
 }

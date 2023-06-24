@@ -33,4 +33,7 @@ class AuthController extends Controller
     {
         return $this->AuthRepository->createUser($request);
     }
+    public function delete($id){
+        return $this->AuthRepository->deleteUser($id);
+    }
 }

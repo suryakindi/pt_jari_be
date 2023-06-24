@@ -100,6 +100,18 @@ class AuthRepositoryImplement extends Eloquent implements AuthRepository
 
         return BaseController::success(NULL, "Berhasil menambahkan user", 200);
     }
+    public function deleteUser($id){
+        try {
+            $user = $this->model::find($id);
+            if($user == NULL){
+                return BaseController::error(NULL, 'User Notfound', 400);
+            }
+            $this->model::where('id',$id)->delete();
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        return BaseController::success($id, 'Success Delete', 200);
+    }
 
     // Write something awesome :)
 }
