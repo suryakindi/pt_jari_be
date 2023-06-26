@@ -16,6 +16,9 @@ class DashboardController extends Controller
     public function countBookBooking(){
      return $this->DashboardRepository->countBookBooking();
     }
+    public function CountUser(){
+        return $this->DashboardRepository->CountUser();
+       }
     
 
 }

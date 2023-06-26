@@ -6,7 +6,8 @@ use LaravelEasyRepository\Implementations\Eloquent;
 use App\Models\Bookborrowing;
 use App\Http\Controllers\BaseController;
 use DB;
-
+use App\Models\User;
+use App\Models\Book;
 class BookborrowingRepositoryImplement extends Eloquent implements BookborrowingRepository{
 
     /**
@@ -21,24 +22,27 @@ class BookborrowingRepositoryImplement extends Eloquent implements Bookborrowing
         $this->model = $model;
     }
     public function ShowBookBorrowing(){
-        $borrowing = $this->model::with('user', 'book')->paginate(5);
-      
-        if($borrowing == NULL ){
-            return BaseController::error(NULL, 'Data Notfound', '404');
-        }
-    
-        return BaseController::success($borrowing, 'Success', 200);
-    }
-    public function SearchBook(){
         $name = request()->query('name');
-        $namebook = request()->query('book_name');
-        $query = $this->model::with('user', 'book')->whereHas('user', function($query) use ($name){
-            $query->where('name','LIKE', '%'.$name.'%');
-        })->orwhereHas('book', function($query) use ($namebook){
+        $namebook = request()->query('name_book');
+        if($name){
+            $query = $this->model::with('user', 'book')->whereHas('user', function($query) use ($name){
+                $query->where('name','LIKE', '%'.$name.'%');
+            })->get();
+            return BaseController::success($query, 'Success', 200);
+        }
+
+        if($namebook){
+        $query = $this->model::with('user', 'book')->whereHas('book', function($query) use ($namebook){
             $query->where('name','LIKE', '%'.$namebook.'%');
         })->get();
+        return BaseController::success($query, 'Success', 200);
+        }
         
-        return BaseController::success($query, 'Sucess', 200);
+        $query = $this->model::with('user', 'book')->paginate(5);
+        if($query == NULL ){
+            return BaseController::error(NULL, 'Data Notfound', '404');
+        }
+        return BaseController::success($query, 'Success', 200);
     }
 
     public function createBook($request){
@@ -57,6 +61,30 @@ class BookborrowingRepositoryImplement extends Eloquent implements Bookborrowing
         }
         return BaseController::success($booking ,'Success', 200);
     }
+
+    public function listuser(){
+        $listuser = User::all();
+        $result = [];
+        foreach($listuser as $item) {
+            $data["id"] = $item->id;
+            $data["name"] = $item->name;
+            $result[] = $data;            
+        }
+
+        return BaseController::success($result, 'Success', 200);
+    }
+    
+    public function listbook(){
+        $listbook = Book::all();
+        $result = [];
+        foreach($listbook as $item){
+            $data['id'] = $item->id;
+            $data['name_book'] = $item->name;
+            $result[] = $data;
+        }
+        return BaseController::success($result, 'Success', 200);
+    }
+
     
     // Write something awesome :)
 }

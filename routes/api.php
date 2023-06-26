@@ -38,10 +38,12 @@ Route::prefix('v1')->group(function () {
     });
     Route::prefix('bookborrowing')->group(function () {
         Route::get('/index', [BookborrowingController::class, 'index']);
-        Route::get('/search', [BookborrowingController::class, 'search']);
         Route::post('/create', [BookborrowingController::class, 'create']);
+        Route::get('/list-user', [BookBorrowingController::class, 'listuser']);
+        Route::get('/list-book', [BookBorrowingController::class, 'listbook']);
     });
     Route::prefix('dashboard')->group(function () {
-        Route::get('/index', [DashboardController::class, 'countBookBooking']);
+        Route::get('/month', [DashboardController::class, 'countBookBooking']);
+        Route::get('/user',[DashboardController::class, 'CountUser']);
     });
 });

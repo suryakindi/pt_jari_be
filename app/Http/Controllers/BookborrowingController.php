@@ -14,10 +14,15 @@ class BookborrowingController extends Controller
     public function index(){
        return $this->bookborrowing->ShowBookBorrowing();
     }
-    public function search(){
-        return $this->bookborrowing->SearchBook();
-    }
+    
     public function create(Request $request){
         return $this->bookborrowing->createBook($request);
+    }
+    public function listuser(){
+        return $this->bookborrowing->listuser(); 
+    }
+
+    public function listbook(){
+        return $this->bookborrowing->listbook();
     }
 }
