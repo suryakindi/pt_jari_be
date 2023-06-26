@@ -29,20 +29,19 @@ Route::prefix('v1')->group(function () {
         Route::get('/logout', [AuthController::class, 'logout']);
         Route::get('/profile', [AuthController::class, 'profile']);
     });
-    Route::prefix('book')->group(function(){
+    Route::prefix('book')->group(function () {
         Route::get('/index', [BookController::class, 'index']);
         Route::post('/create', [BookController::class, 'create']);
-        Route::get('/search', [BookController::class, 'searchbook']);
+        Route::get('/detail/{id}', [BookController::class, 'detail']);
         Route::post('/update/{id}', [BookController::class, 'update']);
         Route::get('/delete/{id}', [BookController::class, 'delete']);
     });
-    Route::prefix('bookborrowing')->group(function(){
+    Route::prefix('bookborrowing')->group(function () {
         Route::get('/index', [BookborrowingController::class, 'index']);
         Route::get('/search', [BookborrowingController::class, 'search']);
         Route::post('/create', [BookborrowingController::class, 'create']);
     });
-    Route::prefix('dashboard')->group(function(){
+    Route::prefix('dashboard')->group(function () {
         Route::get('/index', [DashboardController::class, 'countBookBooking']);
-        
     });
 });
